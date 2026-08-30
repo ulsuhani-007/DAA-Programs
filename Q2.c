@@ -1,30 +1,46 @@
 #include<stdio.h>
-int kth_smallest_element(int n,int arr[],int k){
-    int temp;
-    for(int i=0;i<n-1;i++){
-        for(int j=0;j<n-i-1;j++){
-            if(arr[j]>arr[j+1]){
-                temp=arr[j];
-                arr[j]=arr[j+1];
-                arr[j+1]=temp;
-            }
+void insert(int table[], int key, int n)
+{
+    int index = key % n;
+    int i = 0;
+    int newIndex;
+    while(i < n)
+    {
+        newIndex = (index + i * i) % n;
+        if(table[newIndex] == -1)
+        {
+            table[newIndex] = key;
+            return;
         }
+        i++;
     }
-        int element =arr[k-1];
-        return element;
+    printf("Hash table is full. Cannot insert %d\n", key);
 }
-int main(){
-    int n,k;
-    printf("Enter the number of elements in the array: ");
-    scanf("%d",&n);
-    int arr[n];
-    printf("Enter the elements in the array: ");
-    for(int i=0;i<n;i++){
-        scanf("%d",&arr[i]);
+void display(int table[], int n)
+{
+    int i;
+    for(i = 0; i < n; i++)
+    {
+        printf("Index %d: %d\n", i, table[i]);
     }
-    printf("Enter k: ");
-    scanf("%d",&k);
-    int element=kth_smallest_element(n,arr,k);
-    printf("The Element is: %d",element);
+}
+int main()
+{
+    int n;
+    printf("Enter no of elements: ");
+    scanf("%d", &n);
+    int table[n];
+    int key, i;
+    for(i = 0; i < n; i++)
+        table[i] = -1;
+    printf("Enter elements:\n");
+    for(i = 0; i < n; i++)
+    {
+        scanf("%d", &key);
+        insert(table, key, n);
+    }
 
+    printf("\nHash Table:\n");
+    display(table, n);
+    return 0;
 }
